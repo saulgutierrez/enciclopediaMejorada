@@ -1275,5 +1275,21 @@ namespace enciclopediaMejorada
 
             // Politics
         }
+
+        private void searchBar_TextChanged(object sender, EventArgs e)
+        {
+            connection.Open();
+            MySqlCommand mySqlCommand = connection.CreateCommand();
+            mySqlCommand.CommandType = CommandType.Text;
+            mySqlCommand.CommandText = "SELECT * FROM Categorias WHERE Artes like ('" + searchBar.Text + "%')";
+            mySqlCommand.ExecuteNonQuery();
+
+            DataTable dataTable = new DataTable();
+            MySqlDataAdapter mySqlDataAdapter = new MySqlDataAdapter(mySqlCommand);
+            mySqlDataAdapter.Fill(dataTable);
+
+            dataGridViewInfo.DataSource = dataTable;
+            connection.Close();
+        }
     }
 }
